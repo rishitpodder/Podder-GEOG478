@@ -44,13 +44,6 @@
             this.update();
             return this._div;
         };
-        info.update = function (props) {
-            this._div.innerHTML =
-                '<h4>Building Info</h4>' +
-                (props ? '<b>' + props.BldgName + '</b><br>Building Number: ' + props.Number
-                       : 'Hover over a building');
-        };
-        info.addTo(map);
 
         var tamubuildingsLayer;
 
@@ -92,15 +85,16 @@
             };
         }
 
-        fetch('tamubuildings.js')
-            .then(response => response.js())
+        fetch('tamubuildings.txt')
+            .then(response => response.json())
             .then(data => {
                 tamubuildingsLayer = L.geoJson(data, {
                     style: getBuildingStyle,
                     onEachFeature: onEachFeature
                 }).addTo(map);
             })
-       
+            .catch(error => console.error("Error loading TAMU buildings:", error));
+
     </script>
 
 </body>
